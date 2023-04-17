@@ -17,11 +17,14 @@ int main(int argc, char const *argv[])
     // Checando se o processo existe...
     kill(pid,0);
     if(errno == ESRCH){
-        printf("Processo inexistente!");
+        printf("Não existe um processo de número %d! Tente novamente com outro PID.\n",pid);
+    } else {
+        // Enviando o sinal...
+        kill(pid,signal_num);
+        printf("O sinal de número %d foi enviado ao processo de PID %d\n", signal_num, pid);
     }
 
-    // Enviando o sinal...
-    // precisamos tratar a possibilidade de ter algum erro de privilégio;
+    
 }
 
 
