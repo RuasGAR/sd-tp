@@ -4,7 +4,7 @@
 #include <time.h>
 
 // constantes
-#define BUFSIZE 20
+#define BUFSIZE 4
 #define ENDING_COND 0
 #define POWER 2
 #define NULL ((void *)0)
