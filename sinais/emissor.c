@@ -20,9 +20,12 @@ int main(int argc, char const *argv[])
         printf("Não existe um processo de número %d! Tente novamente com outro PID.\n",pid);
     } else {
         // Enviando o sinal...
-        // pensar em forma de tratar erro aqui pra ser mais assertivo na hora de testar
-        kill(pid,signal_num);
-        printf("O sinal de número %d foi enviado ao processo de PID %d\n", signal_num, pid);
+        int sent = kill(pid,signal_num);
+        if(sent>0){
+            printf("O sinal de número %d foi enviado ao processo de PID %d\n", signal_num, pid);
+        }else{
+            printf("Erro desconhecido ao enviar o sinal. Tente novamente!\n");
+        }
     }
 
     
