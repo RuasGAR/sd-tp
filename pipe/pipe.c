@@ -7,7 +7,6 @@
 #define BUFSIZE 4
 #define ENDING_COND 0
 #define POWER 2
-#define NULL ((void *)0)
 
 
 
@@ -16,7 +15,8 @@ int main(int argc, char const *argv[])
 {
 
     // config da randomização
-    srand(time(NULL));
+    time_t t = time(NULL);
+    srandom((unsigned int) t);
     
     int dest_pid;
     int n_total;
