@@ -6,10 +6,9 @@
 #include <arpa/inet.h>
 
 #define PORT 8080
-#define BUFFER_SIZE 20
+#define BUFSIZE 20
 
 bool is_prime(int number) {
-    // Função para verificar se um número é primo
     if (number <= 1) {
         return false;
     }
@@ -26,18 +25,12 @@ int main(int argc, char const *argv[]) {
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
-    char buffer[BUFFER_SIZE] = {0};
-    char response[BUFFER_SIZE] = {0};
+    char buffer[BUFSIZE] = {0};
+    char response[BUFSIZE] = {0};
 
     // Criação do socket do servidor
     if ((server_fd = socket(PF_INET, SOCK_STREAM, 0)) == 0) {
         perror("Erro ao criar socket do servidor");
-        exit(EXIT_FAILURE);
-    }
-
-    // Configuração do socket do servidor
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) {
-        perror("Erro na configuração do socket do servidor");
         exit(EXIT_FAILURE);
     }
 
@@ -69,8 +62,8 @@ int main(int argc, char const *argv[]) {
 
     // Loop para receber os números do produtor
     while (true) {
-        memset(buffer, 0, BUFFER_SIZE);
-        valread = recv(new_socket, buffer, BUFFER_SIZE, 0);
+        memset(buffer, 0, BUFSIZE);
+        valread = recv(new_socket, buffer, BUFSIZE, 0);
 
         if (strcmp(buffer, "0") == 0) {
             // Sinal de término recebido, encerra o loop
@@ -82,16 +75,18 @@ int main(int argc, char const *argv[]) {
 
         // Prepara a resposta com o resultado de ser primo ou não
         if (is_prime_number) {
-            strcpy(response, "primo");
+            strcpy(response, "é primo");
         } else {
-            strcpy(response, "não primo");
+            strcpy(response, "não é primo");
         }
 
         // Envia a resposta ao produtor
-        send(new_socket, response, BUFFER_SIZE, 0);
+        send(new_socket, response, BUFSIZE, 0);
     }
 
     printf("Término da conexão com o produtor.\n");
+
+    printf("Fechando socket do servidor.\n");
 
     // Fecha o socket do servidor
     close(server_fd);

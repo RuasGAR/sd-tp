@@ -28,12 +28,6 @@ int main(int argc, char const *argv[]) {
     serv_addr.sin_family = PF_INET;
     serv_addr.sin_port = htons(PORT);
 
-    // Converte o endereço IP de loopback para binário
-    if (inet_pton(PF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
-        perror("Erro na conversão de endereço");
-        return -1;
-    }
-
     // Estabelecimento de conexão com o consumidor
     if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
         perror("Erro na conexão com o consumidor");
@@ -43,7 +37,7 @@ int main(int argc, char const *argv[]) {
     printf("Conexão estabelecida com o consumidor.\n");
 
     int n0 = 1;
-    int delta = (random() % 100 + 1);
+    int delta = 0;
     int seq_num = n0 + delta;
 
     // Altera o seed para o random gerar números aleatórios a cada run
@@ -54,7 +48,7 @@ int main(int argc, char const *argv[]) {
     for (int i = 0; i < numbers_count; i++) {
         sprintf(buffer, "%d", seq_num);
 
-        printf("Enviando número: %d\n", seq_num);
+        printf("%d - Enviando número: %d.\n", i+1, seq_num);
         send(sock, buffer, BUFSIZE, 0);
 
         // Aguarda a resposta do consumidor
@@ -69,7 +63,7 @@ int main(int argc, char const *argv[]) {
             printf("O consumidor fechou a conexão.\n");
             exit(EXIT_SUCCESS);
         } else {
-            printf("Resultado do consumidor: %s\n", buffer);
+            printf("-- Resposta do consumidor: %s\n", buffer);
         }
 
         delta = (random() % 100 + 1);
