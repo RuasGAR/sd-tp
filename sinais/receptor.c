@@ -27,6 +27,7 @@ int main(int argc, char const *argv[])
     printf("Você deseja que este programa utilize qual estratégia de espera?\nDigite o número associado à modalidade escolhida:\n");
     printf("1 - Busy wait  #########  2 - Blocking wait\n");
     scanf("%d", &chosen_type);
+    printf("Ok. Vou aguardar de acordo com a estatégia %d.\n", chosen_type);
 
     signal(SIGTERM, term_handler);
     signal(SIGTRAP, trap_handler);

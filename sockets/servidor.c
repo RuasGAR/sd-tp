@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <string.h>
+#include <stdbool.h>
+#include <unistd.h>
+#include <arpa/inet.h>
 
 #define PORT 8080
 #define BUFSIZE 20
@@ -43,13 +47,22 @@ int main(int argc, char const *argv[]) {
         perror("Erro no vinculo do socket do servidor");
         exit(EXIT_FAILURE);
     }
+    }
 
+    // Inicia a escuta por conexões
+    if (listen(server_fd, 5) < 0) {
+        perror("Erro na escuta por conexões");
     // Inicia a escuta por conexões
     if (listen(server_fd, 5) < 0) {
         perror("Erro na escuta por conexões");
         exit(EXIT_FAILURE);
     }
 
+    printf("Aguardando conexão do produtor...\n");
+
+    // Aceita a conexão do produtor
+    if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0) {
+        perror("Erro na aceitação da conexão");
     printf("Aguardando conexão do produtor...\n");
 
     // Aceita a conexão do produtor

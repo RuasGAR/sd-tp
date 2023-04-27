@@ -79,7 +79,10 @@ int main(int argc, char const *argv[]) {
 
     // Fecha o socket do cliente
     close(sock);
+    // Fecha o socket do cliente
+    close(sock);
 
     return 0;
 }
+
 
